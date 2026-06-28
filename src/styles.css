@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* Manual (class-based) dark mode so the theme switcher can override the OS. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Design tokens ───────────────────────────────────────────────────────
+   Dark-first, zen palette. Warm sumi (ink) darks, washi (paper) lights,
+   a single restrained shu (vermilion) accent — a nod to torii / hanko red.
+   Square by intent: radii stay at 0–2px, structure comes from hairlines. */
+:root {
+  --background: #f5f2ea; /* washi */
+  --surface: #fcfaf4;
+  --surface-2: #ece8dd;
+  --border: #ddd8c9;
+  --border-strong: #c9c2ad;
+  --foreground: #1b1a16; /* sumi */
+  --muted: #6c685c;
+  --muted-foreground: #8a8576;
+  --accent: #c33a26; /* shu */
+  --accent-soft: rgb(195 58 38 / 0.1);
+  --accent-foreground: #fcfaf4;
+  --ring: #c33a26;
+
+  --radius: 2px;
+}
+
+.dark {
+  --background: #121210; /* deep sumi */
+  --surface: #1a1a17;
+  --surface-2: #211f1c;
+  --border: #2b2a26;
+  --border-strong: #3a3833;
+  --foreground: #ece8de; /* washi white, warm */
+  --muted: #938e81;
+  --muted-foreground: #757166;
+  --accent: #e2543c; /* shu, lifted for dark */
+  --accent-soft: rgb(226 84 60 / 0.12);
+  --accent-foreground: #121210;
+  --ring: #e2543c;
+}
+
+/* Map tokens to Tailwind theme so utilities (bg-surface, text-accent,
+   border-border, font-display, …) are generated from the vars above. */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+
+  --font-display: "Zen Old Mincho", ui-serif, Georgia, serif;
+  --font-sans: "Zen Kaku Gothic New", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    /* Skill: crisper text rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Skill: balance headings, avoid orphans in body copy. */
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Thin, theme-aware scrollbar — quiet, not chrome-heavy. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+}
+
+/* ── Zen texture: seigaiha (青海波) wave pattern, very low opacity ───────── */
+@utility bg-seigaiha {
+  background-image: repeating-radial-gradient(
+    circle at center,
+    transparent 0,
+    transparent 13px,
+    var(--foreground) 13px,
+    transparent 14px
+  );
+  background-size: 30px 30px;
+  opacity: 0.04;
+}
+
+/* ── Staggered enter (skill: split + stagger, ~90ms, reduced-motion safe) ── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-rise {
+  opacity: 0;
+  animation: rise 0.5s cubic-bezier(0.2, 0, 0, 1) both;
+  animation-delay: calc(var(--rise-index, 0) * 90ms);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

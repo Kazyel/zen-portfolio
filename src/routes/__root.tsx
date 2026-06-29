@@ -15,13 +15,13 @@ export const Route = createRootRoute({
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{ title: site.title },
 			{ name: "description", content: site.description },
-			{ name: "theme-color", content: "#121210" },
+			{ name: "theme-color", content: "#0e0e0c" },
 			{ property: "og:title", content: site.title },
 			{ property: "og:description", content: site.description },
 			{ property: "og:type", content: "website" },
 		],
 		links: [
-			// Fonts: warm up the connection, then load the Zen families + a mono.
+			// Fonts: warm up the connection, then load Inter + JetBrains Mono.
 			{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 			{
 				rel: "preconnect",
@@ -30,7 +30,7 @@ export const Route = createRootRoute({
 			},
 			{
 				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap",
+				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
 			},
 			{ rel: "stylesheet", href: appCss },
 		],
@@ -53,21 +53,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<div className="relative flex min-h-dvh flex-col">
-					{/* Quiet zen backdrop — seigaiha texture + a large kanji watermark. */}
-					<div
-						aria-hidden
-						className="bg-seigaiha pointer-events-none fixed inset-0 -z-10"
-					/>
-					<span
-						aria-hidden
-						className="pointer-events-none fixed -right-10 bottom-8 -z-10 select-none font-display text-[22rem] leading-none text-foreground opacity-[0.025]"
-					>
-						禅
-					</span>
-
+				<div className="flex min-h-dvh flex-col">
 					<SiteHeader />
-					<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+					<main className="w-full flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
 						{children}
 					</main>
 					<SiteFooter />

@@ -1,6 +1,6 @@
-export type Theme = "light" | "dark" | "system";
+export type Theme = "light" | "dark";
 
-export const THEMES: Theme[] = ["light", "dark", "system"];
+export const THEMES: Theme[] = ["light", "dark"];
 export const STORAGE_KEY = "theme";
 export const DEFAULT_THEME: Theme = "dark"; // dark-first
 
@@ -10,22 +10,11 @@ export const DEFAULT_THEME: Theme = "dark"; // dark-first
  * <html> synchronously, so there is no flash of the wrong theme on load (FOUC).
  * Kept as a single minified string on purpose — it must run instantly.
  */
-export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("${STORAGE_KEY}")||"${DEFAULT_THEME}";var d=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);var e=document.documentElement;e.classList.toggle("dark",d);e.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
-
-/** Whether a given theme choice should render dark right now. */
-export function resolveDark(theme: Theme): boolean {
-	if (theme === "system") {
-		return (
-			typeof matchMedia !== "undefined" &&
-			matchMedia("(prefers-color-scheme: dark)").matches
-		);
-	}
-	return theme === "dark";
-}
+export const THEME_SCRIPT = `(function(){try{var d=localStorage.getItem("${STORAGE_KEY}")!=="light";var e=document.documentElement;e.classList.toggle("dark",d);e.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
 
 /** Apply a theme to the document and persist the choice. */
 export function applyTheme(theme: Theme): void {
-	const dark = resolveDark(theme);
+	const dark = theme === "dark";
 	const el = document.documentElement;
 	el.classList.toggle("dark", dark);
 	el.style.colorScheme = dark ? "dark" : "light";

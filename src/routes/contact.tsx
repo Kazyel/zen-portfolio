@@ -5,7 +5,6 @@ export const Route = createFileRoute("/contact")({
 	component: () => (
 		<ComingSoon
 			title="Contact"
-			kanji="縁"
 			blurb="A way to start a conversation — form and links coming soon. Until then, email works."
 		/>
 	),

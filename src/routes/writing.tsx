@@ -5,7 +5,6 @@ export const Route = createFileRoute("/writing")({
 	component: () => (
 		<ComingSoon
 			title="Writing"
-			kanji="筆"
 			blurb="Notes and essays on building calm, fast software. The first posts are on the way."
 		/>
 	),

@@ -1,5 +1,6 @@
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { cn } from "#/lib/cn";
 import {
 	applyTheme,
@@ -8,14 +9,7 @@ import {
 	type Theme,
 } from "#/lib/theme";
 
-const ORDER: Theme[] = ["light", "dark", "system"];
-const LABEL: Record<Theme, string> = {
-	light: "Light",
-	dark: "Dark",
-	system: "System",
-};
-
-/** Cross-fade between icons (skill: keep all in DOM, animate opacity/scale/blur). */
+/** Cross-fade between icons (skill: keep both in DOM, animate opacity/scale/blur). */
 function Icon({
 	active,
 	children,
@@ -48,43 +42,41 @@ export function ThemeToggle() {
 		setMounted(true);
 	}, []);
 
-	// When following the OS, repaint as it changes.
-	useEffect(() => {
-		if (theme !== "system") return;
-		const mq = matchMedia("(prefers-color-scheme: dark)");
-		const onChange = () => applyTheme("system");
-		mq.addEventListener("change", onChange);
-		return () => mq.removeEventListener("change", onChange);
-	}, [theme]);
+	function toggle() {
+		const next: Theme = theme === "dark" ? "light" : "dark";
 
-	function cycle() {
-		const next = ORDER[(ORDER.indexOf(theme) + 1) % ORDER.length];
-		setTheme(next);
-		applyTheme(next);
+		const commit = () => {
+			// flushSync so the icon swap is captured inside the same transition snapshot.
+			flushSync(() => setTheme(next));
+			applyTheme(next);
+		};
+
+		// No View Transitions support (or reduced motion) → just swap.
+		const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+		if (reduced || typeof document.startViewTransition !== "function") {
+			commit();
+			return;
+		}
+
+		// Cross-fade old → new theme (see ::view-transition-* in styles.css).
+		document.startViewTransition(commit);
 	}
 
 	return (
 		<button
 			type="button"
-			onClick={cycle}
-			aria-label={`Theme: ${LABEL[theme]}. Activate to switch.`}
-			title={`Theme: ${LABEL[theme]}`}
+			onClick={toggle}
+			aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+			title={theme === "dark" ? "Dark" : "Light"}
 			suppressHydrationWarning
-			className={cn(
-				"relative grid h-10 w-10 place-items-center border border-border bg-surface text-muted",
-				"transition-[color,border-color,scale] duration-200 hover:border-border-strong hover:text-foreground",
-				"active:scale-[0.96]",
-			)}
+			className="relative grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96]"
 		>
 			<span className="relative block size-[18px]">
 				<Icon active={mounted && theme === "light"}>
 					<Sun className="size-[18px]" strokeWidth={1.75} />
 				</Icon>
-				<Icon active={mounted && theme === "dark"}>
+				<Icon active={!mounted || theme === "dark"}>
 					<Moon className="size-[18px]" strokeWidth={1.75} />
-				</Icon>
-				<Icon active={mounted && theme === "system"}>
-					<Monitor className="size-[18px]" strokeWidth={1.75} />
 				</Icon>
 			</span>
 		</button>

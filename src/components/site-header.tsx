@@ -1,62 +1,135 @@
 import { Link } from "@tanstack/react-router";
+import { Menu, X } from "lucide-react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { nav, site } from "#/lib/site";
 import { ThemeToggle } from "./theme-toggle";
 
-export function SiteHeader() {
-	return (
-		<header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
-			<div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
-				{/* Brand */}
-				<Link
-					to="/"
-					className="flex shrink-0 items-baseline gap-2 transition-opacity hover:opacity-80"
-				>
-					<span className="font-display text-xl leading-none text-accent">
-						{site.brand}
-					</span>
-					<span className="hidden font-mono text-sm tracking-tight text-muted sm:inline">
-						{site.brandRoman}
-					</span>
-				</Link>
+const rise = (i: number) => ({ "--rise-index": i }) as CSSProperties;
 
-				{/* Primary nav */}
-				<nav
-					aria-label="Primary"
-					className="-mx-4 flex flex-1 items-center gap-1 overflow-x-auto px-4 [scrollbar-width:none] sm:justify-center"
-				>
+function Brand({ onNavigate }: { onNavigate?: () => void }) {
+	return (
+		<Link
+			to="/"
+			onClick={onNavigate}
+			aria-label={site.brand}
+			className="font-mono text-[15px] font-bold lowercase tracking-tight transition-opacity hover:opacity-80"
+		>
+			{site.brand}
+			<span className="text-accent">_</span>
+		</Link>
+	);
+}
+
+function NavItem({
+	to,
+	label,
+	exact,
+}: {
+	to: string;
+	label: string;
+	exact: boolean;
+}) {
+	return (
+		<Link
+			to={to}
+			activeOptions={{ exact }}
+			className="font-mono text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
+			activeProps={{ className: "!text-foreground" }}
+		>
+			{label}
+		</Link>
+	);
+}
+
+export function SiteHeader() {
+	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		if (!open) return;
+		const onKey = (e: KeyboardEvent) => {
+			if (e.key === "Escape") setOpen(false);
+		};
+		document.addEventListener("keydown", onKey);
+		document.body.style.overflow = "hidden";
+		return () => {
+			document.removeEventListener("keydown", onKey);
+			document.body.style.overflow = "";
+		};
+	}, [open]);
+
+	return (
+		<header>
+			<div className="flex h-14 items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+				<Brand />
+
+				<nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
 					{nav.map((item) => (
-						<Link
+						<NavItem
 							key={item.to}
 							to={item.to}
-							activeOptions={{ exact: item.to === "/" }}
-							className="group relative flex items-center gap-1.5 whitespace-nowrap px-3 py-2 font-sans text-sm font-medium text-muted transition-colors hover:text-foreground"
-							activeProps={{ className: "!text-foreground" }}
-						>
-							{({ isActive }) => (
-								<>
-									<span
-										aria-hidden
-										className="font-display text-xs text-muted/50 transition-colors group-hover:text-accent"
-									>
-										{item.kanji}
-									</span>
-									<span>{item.label}</span>
-									{/* Active underline accent */}
-									<span
-										aria-hidden
-										className="absolute inset-x-3 -bottom-px h-px origin-left bg-accent transition-transform duration-300 ease-[cubic-bezier(0.2,0,0,1)]"
-										style={{ transform: `scaleX(${isActive ? 1 : 0})` }}
-									/>
-								</>
-							)}
-						</Link>
+							label={item.label}
+							exact={item.to === "/"}
+						/>
 					))}
 				</nav>
 
-				<div className="shrink-0">
+				<div className="-mr-2 flex items-center">
 					<ThemeToggle />
+					<button
+						type="button"
+						onClick={() => setOpen(true)}
+						aria-label="Open menu"
+						aria-expanded={open}
+						className="grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96] md:hidden"
+					>
+						<Menu className="size-[18px]" strokeWidth={1.75} />
+					</button>
 				</div>
 			</div>
+
+			{/* Full-screen menu (mobile). */}
+			{open ? (
+				<div
+					className="fixed inset-0 z-50 flex flex-col bg-background md:hidden"
+					role="dialog"
+					aria-modal="true"
+					aria-label="Menu"
+				>
+					<div className="flex h-14 items-center justify-between px-4 sm:px-6">
+						<Brand onNavigate={() => setOpen(false)} />
+						<button
+							type="button"
+							onClick={() => setOpen(false)}
+							aria-label="Close menu"
+							className="grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96]"
+						>
+							<X className="size-[18px]" strokeWidth={1.75} />
+						</button>
+					</div>
+
+					<nav
+						aria-label="Primary"
+						className="flex flex-1 flex-col justify-center gap-1 px-6"
+					>
+						{nav.map((item, i) => (
+							<Link
+								key={item.to}
+								to={item.to}
+								onClick={() => setOpen(false)}
+								activeOptions={{ exact: item.to === "/" }}
+								style={rise(i)}
+								className="animate-rise group flex items-baseline gap-4 py-2 font-mono text-3xl font-bold tracking-tight text-muted transition-colors duration-200 hover:text-foreground"
+								activeProps={{ className: "!text-foreground" }}
+							>
+								<span aria-hidden className="text-sm text-accent">
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								{item.label}
+							</Link>
+						))}
+					</nav>
+				</div>
+			) : null}
 		</header>
 	);
 }

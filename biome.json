@@ -19,15 +19,10 @@
     "formatter": {
         "enabled": true,
         "indentStyle": "space",
-        "indentWidth": 4
+        "indentWidth": 4,
+        "lineWidth": 90
     },
     "assist": { "actions": { "source": { "organizeImports": "on" } } },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": true
-        }
-    },
     "javascript": {
         "formatter": {
             "quoteStyle": "double"

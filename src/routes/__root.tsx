@@ -1,13 +1,12 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
-import { LainMode } from "#/components/lain-mode";
-import { SiteFooter } from "#/components/site-footer";
-import { SiteHeader } from "#/components/site-header";
-import { LAIN_SCRIPT } from "#/lib/lain";
-import { site } from "#/lib/site";
-import { THEME_SCRIPT } from "#/lib/theme";
+import { SiteFooter } from "#/components/layout/site-footer";
+import { SiteHeader } from "#/components/layout/site-header";
+import { site } from "#/data/site";
+import { LAIN_SCRIPT } from "#/features/lain/lain";
+import { LainMode } from "#/features/lain/lain-mode";
+import { THEME_SCRIPT } from "#/features/theme/theme";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({

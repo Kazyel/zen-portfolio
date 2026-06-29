@@ -1,4 +1,4 @@
-import { site, socials } from "#/lib/site";
+import { site, socials } from "#/data/site";
 
 export function SiteFooter() {
     return (
@@ -23,10 +23,7 @@ export function SiteFooter() {
                                     : {})}
                                 className="grid size-9 place-items-center text-muted/50 transition-colors duration-200 hover:text-foreground"
                             >
-                                <s.icon
-                                    className="size-[18px]"
-                                    strokeWidth={1.75}
-                                />
+                                <s.icon className="size-4.5" strokeWidth={1.75} />
                             </a>
                         ))}
                     </div>

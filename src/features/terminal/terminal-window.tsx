@@ -13,7 +13,7 @@ export function TerminalWindow({
     return (
         <section
             style={rise(index)}
-            className="animate-rise flex w-full flex-col border border-terminal-border bg-terminal font-mono text-[15px]"
+            className="animate-rise relative flex w-full flex-col border border-terminal-border bg-terminal font-mono text-[15px]"
         >
             <div className="flex items-center gap-2.5 border-b border-terminal-border px-5 py-3">
                 <span aria-hidden className="flex gap-1.5">

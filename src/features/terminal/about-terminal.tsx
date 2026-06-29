@@ -1,7 +1,10 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
 import { profile } from "#/data/site";
 import { delay } from "#/lib/animation";
 import { AsciiBanner } from "./ascii-banner";
-import { Cmd, Prompt } from "./terminal-prompt";
+import { TerminalCommand } from "./terminal-command";
+import { Cmd } from "./terminal-prompt";
 import { TerminalWindow } from "./terminal-window";
 
 export function AboutTerminal() {
@@ -12,28 +15,36 @@ export function AboutTerminal() {
             </div>
 
             <div>
-                <Cmd cmd="whoami" at={250} />
-                <p className="reveal mt-1.5 text-terminal-muted" style={delay(800)}>
-                    {profile.whoami}
-                </p>
+                <Cmd cmd="whoami" at={100} />
+                <h1
+                    className="reveal mt-1.5 font-mono text-[15px] font-normal text-terminal-fg"
+                    style={delay(420)}
+                >
+                    {profile.name}
+                    <span className="text-terminal-muted"> — {profile.role}</span>
+                </h1>
             </div>
 
             <div>
-                <Cmd cmd="cat ~/about" at={1000} />
-                <div className="reveal mt-1.5 text-terminal-muted" style={delay(1550)}>
+                <Cmd cmd="cat ~/about" at={560} />
+                <div className="reveal mt-1.5 text-terminal-muted" style={delay(900)}>
                     {profile.about.map((line) => (
                         <p key={line}>- {line}</p>
                     ))}
                 </div>
             </div>
 
-            <p className="reveal text-terminal-fg" style={delay(1800)}>
-                <Prompt />{" "}
-                <span
-                    aria-hidden
-                    className="cursor-blink ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-terminal-fg"
-                />
-            </p>
+            <div className="reveal" style={delay(1040)}>
+                <TerminalCommand>
+                    <Link
+                        to="/contact"
+                        className="flex shrink-0 items-center gap-1.5 border border-terminal-accent/60 px-3 py-1 font-mono text-[13px] text-terminal-accent transition-colors duration-200 hover:bg-terminal-accent hover:text-terminal"
+                    >
+                        ./contact
+                        <ArrowUpRight className="size-3.5" strokeWidth={2} />
+                    </Link>
+                </TerminalCommand>
+            </div>
         </TerminalWindow>
     );
 }

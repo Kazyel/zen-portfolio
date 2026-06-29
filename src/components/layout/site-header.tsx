@@ -31,10 +31,18 @@ function NavItem({ to, label, exact }: { to: string; label: string; exact: boole
         <Link
             to={to}
             activeOptions={{ exact }}
-            className="font-mono text-[13px] text-muted transition-colors duration-200 hover:text-foreground"
-            activeProps={{ className: "!text-foreground" }}
+            className="px-1 font-mono text-[13px] text-muted transition-colors duration-150 hover:bg-foreground hover:text-background"
+            activeProps={{ className: "!bg-foreground !text-background" }}
         >
-            {label}
+            {({ isActive }) =>
+                isActive ? (
+                    <>
+                        {">"} {label}
+                    </>
+                ) : (
+                    label
+                )
+            }
         </Link>
     );
 }

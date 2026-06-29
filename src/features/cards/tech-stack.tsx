@@ -24,37 +24,37 @@ const GROUPS: { label: string; items: Tech[] }[] = [
     {
         label: "front-end",
         items: [
-            { name: "TypeScript", Icon: SiTypescript },
-            { name: "Vite", Icon: SiVite },
-            { name: "React", Icon: SiReact },
+            { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+            { name: "Vite", Icon: SiVite, color: "#646CFF" },
+            { name: "React", Icon: SiReact, color: "#61DAFB" },
             { name: "Next.js", Icon: SiNextdotjs },
             { name: "TanStack", abbreviation: "TAN" },
             { name: "Zustand", abbreviation: "ZUS" },
-            { name: "CSS", Icon: SiCss },
-            { name: "Tailwind", Icon: SiTailwindcss },
-            { name: "Sass", Icon: SiSass },
+            { name: "CSS", Icon: SiCss, color: "#663399" },
+            { name: "Tailwind", Icon: SiTailwindcss, color: "#06B6D4" },
+            { name: "Sass", Icon: SiSass, color: "#CC6699" },
         ],
     },
     {
         label: "back-end",
         items: [
-            { name: "Node.js", Icon: SiNodedotjs },
-            { name: "Python", Icon: SiPython },
-            { name: "Go", Icon: SiGo },
-            { name: "SQLite", Icon: SiSqlite },
-            { name: "MySQL", Icon: SiMysql },
-            { name: "PostgreSQL", Icon: SiPostgresql },
-            { name: "Redis", Icon: SiRedis },
-            { name: "MongoDB", Icon: SiMongodb },
+            { name: "Node.js", Icon: SiNodedotjs, color: "#5FA04E" },
+            { name: "Python", Icon: SiPython, color: "#3776AB" },
+            { name: "Go", Icon: SiGo, color: "#00ADD8" },
+            { name: "SQLite", Icon: SiSqlite, color: "#0F80CC" },
+            { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+            { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
+            { name: "Redis", Icon: SiRedis, color: "#FF4438" },
+            { name: "MongoDB", Icon: SiMongodb, color: "#47A248" },
         ],
     },
     {
         label: "devops & testing",
         items: [
-            { name: "Vitest", Icon: SiVitest },
+            { name: "Vitest", Icon: SiVitest, color: "#6E9F18" },
             { name: "Playwright", abbreviation: "PW" },
-            { name: "GitHub Actions", Icon: SiGithubactions },
-            { name: "Docker", Icon: SiDocker },
+            { name: "GitHub Actions", Icon: SiGithubactions, color: "#2088FF" },
+            { name: "Docker", Icon: SiDocker, color: "#2496ED" },
         ],
     },
 ];
@@ -68,11 +68,13 @@ export function TechStack() {
                         {group.label}
                     </p>
 
-                    <div className="mt-2.5 flex flex-wrap gap-2">
+                    <ul aria-label={group.label} className="mt-2.5 flex flex-wrap gap-2">
                         {group.items.map((t) => (
-                            <Tile key={t.name} {...t} />
+                            <li key={t.name}>
+                                <Tile {...t} />
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
             ))}
         </div>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Card } from "#/features/cards/card";
-import { Learning } from "#/features/cards/learning";
+import { Currently } from "#/features/cards/currently";
 import { TechStack } from "#/features/cards/tech-stack";
 import { Tools } from "#/features/cards/tools";
 import { AboutTerminal } from "#/features/terminal/about-terminal";
@@ -17,8 +17,8 @@ function Home() {
                     <TechStack />
                 </Card>
 
-                <Card label="learning" index={2}>
-                    <Learning />
+                <Card label="currently" index={2}>
+                    <Currently />
                 </Card>
 
                 <Card label="tools" index={3}>

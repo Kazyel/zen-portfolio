@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Globe, Linkedin, Mail } from "lucide-react";
+import { Github, Globe, Linkedin, Mail } from "lucide-react";
 
 export type NavItem = {
     label: string;
@@ -20,9 +20,10 @@ export type Tool = {
 
 export const site = {
     brand: "kazyel",
-    title: "kazyel | full-stack developer",
+    author: "Mateus Mascarelo",
+    title: "Mateus Mascarelo — full-stack developer",
     description:
-        "Portfolio of a Brazilian full-stack developer. Clean, minimal, terminal-flavoured — built with TanStack Start.",
+        "Mateus Mascarelo — Brazilian full-stack developer. Clean, minimal, terminal-flavoured portfolio built with TanStack Start.",
     url: "https://example.com",
 } as const;
 
@@ -35,7 +36,8 @@ export const nav: NavItem[] = [
 ];
 
 export const profile = {
-    whoami: "brazilian full-stack developer",
+    name: "Mateus Mascarelo",
+    role: "brazilian full-stack developer",
     about: [
         "student & intern, mostly self-taught",
         "chill, curious and creative",
@@ -44,9 +46,15 @@ export const profile = {
     ],
 } as const;
 
-export const learning = {
+type WorkItem = { label: string; href?: string; soon?: boolean };
+
+export const currently: { working: WorkItem[]; reading: string[] } = {
+    working: [
+        { label: "takeat.app", href: "https://takeat.app" },
+        { label: "a big project", soon: true },
+    ],
     reading: ["the pragmatic programmer", "clean code"],
-} as const;
+};
 
 export const tools: Tool[] = [
     { name: "CachyOS", desc: "current distro", href: "https://cachyos.org" },
@@ -60,6 +68,7 @@ export const tools: Tool[] = [
 ];
 
 export const socials: SocialLink[] = [
+    { label: "GitHub", href: "https://github.com/Kazyel", icon: Github },
     { label: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
     { label: "Portfolio", href: "/", icon: Globe },
     { label: "Email", href: "mailto:hello@kazyel.dev", icon: Mail },

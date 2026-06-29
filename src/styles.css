@@ -16,7 +16,7 @@
   --accent-foreground: #ffffff;
   --ring: #7c3aed;
 
-  --terminal: #080807;
+  --terminal: #211e17;
   --terminal-fg: #e9e7dd;
   --terminal-muted: #8a8779;
   --terminal-border: #232220;
@@ -38,6 +38,48 @@
   --accent-soft: rgb(167 139 250 / 0.14);
   --accent-foreground: #0e0e0c;
   --ring: #a78bfa;
+
+  --terminal: #080807;
+}
+
+.amber {
+  --background: #0a0600;
+  --surface: #130c00;
+  --surface-2: #1b1100;
+  --border: #3a2600;
+  --border-strong: #573a00;
+  --foreground: #ffb000;
+  --muted: #b87e00;
+  --muted-foreground: #7d5600;
+  --accent: #ffcb47;
+  --accent-soft: rgb(255 203 71 / 0.14);
+  --accent-foreground: #0a0600;
+  --ring: #ffcb47;
+  --terminal: #050300;
+  --terminal-fg: #ffb000;
+  --terminal-muted: #a06e00;
+  --terminal-border: #3a2600;
+  --terminal-accent: #ffcb47;
+}
+
+.green {
+  --background: #000a03;
+  --surface: #00140a;
+  --surface-2: #001c0e;
+  --border: #003a1e;
+  --border-strong: #00572e;
+  --foreground: #33ff66;
+  --muted: #1fb84f;
+  --muted-foreground: #14803a;
+  --accent: #7dff9f;
+  --accent-soft: rgb(125 255 159 / 0.14);
+  --accent-foreground: #000a03;
+  --ring: #7dff9f;
+  --terminal: #000704;
+  --terminal-fg: #33ff66;
+  --terminal-muted: #1aa84a;
+  --terminal-border: #00351c;
+  --terminal-accent: #7dff9f;
 }
 
 @theme inline {
@@ -108,8 +150,8 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline: 2px dotted var(--ring);
+    outline-offset: 3px;
   }
 
   * {
@@ -177,7 +219,7 @@
   white-space: nowrap;
   width: 0;
   vertical-align: bottom;
-  animation: typing 0.5s steps(var(--n, 10)) forwards;
+  animation: typing 0.35s steps(var(--n, 10)) forwards;
   animation-delay: var(--delay, 0ms);
 }
 @keyframes typing {
@@ -188,7 +230,7 @@
 
 .reveal {
   opacity: 0;
-  animation: reveal 0.3s ease forwards;
+  animation: reveal 0.25s ease forwards;
   animation-delay: var(--delay, 0ms);
 }
 @keyframes reveal {

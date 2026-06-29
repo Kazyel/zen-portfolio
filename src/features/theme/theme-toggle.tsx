@@ -5,6 +5,7 @@ import {
     applyTheme,
     DEFAULT_THEME,
     getStoredTheme,
+    THEMES,
     type Theme,
 } from "#/features/theme/theme";
 import { cn } from "#/lib/cn";
@@ -34,8 +35,8 @@ export function ThemeToggle() {
         setMounted(true);
     }, []);
 
-    function toggle() {
-        const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+    function cycle() {
+        const nextTheme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
 
         const commit = () => {
             flushSync(() => setTheme(nextTheme));
@@ -55,10 +56,10 @@ export function ThemeToggle() {
     return (
         <button
             type="button"
-            title={theme === "dark" ? "Dark" : "Light"}
+            title={`Theme: ${theme}`}
             className="relative grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96]"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            onClick={toggle}
+            aria-label={`Theme: ${theme}. Activate to cycle.`}
+            onClick={cycle}
             suppressHydrationWarning
         >
             <span className="relative block size-4.5">
@@ -68,6 +69,14 @@ export function ThemeToggle() {
 
                 <ThemeIcon active={!mounted || theme === "dark"}>
                     <Moon className="size-4.5" strokeWidth={1.75} />
+                </ThemeIcon>
+
+                <ThemeIcon active={mounted && theme === "amber"}>
+                    <span className="size-3.5 bg-[#ffb000]" />
+                </ThemeIcon>
+
+                <ThemeIcon active={mounted && theme === "green"}>
+                    <span className="size-3.5 bg-[#33ff66]" />
                 </ThemeIcon>
             </span>
         </button>

@@ -197,7 +197,6 @@
   }
 }
 
-/* Lain mode (Konami-gated): CRT scanlines, flicker, glitch. */
 .crt {
   position: fixed;
   inset: 0;

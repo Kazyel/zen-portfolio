@@ -21,8 +21,10 @@ export function TerminalWindow({
                     <span className="size-3 bg-terminal-border" />
                     <span className="size-3 bg-terminal-border" />
                 </span>
+
                 <span className="ml-1 text-[13px] text-terminal-muted">{title}</span>
             </div>
+
             <div className="flex-1 space-y-6 p-6 leading-relaxed sm:p-9">{children}</div>
         </section>
     );

@@ -10,12 +10,14 @@ export function AboutTerminal() {
             <div className="reveal" style={delay(0)}>
                 <AsciiBanner />
             </div>
+
             <div>
                 <Cmd cmd="whoami" at={250} />
                 <p className="reveal mt-1.5 text-terminal-muted" style={delay(800)}>
                     {profile.whoami}
                 </p>
             </div>
+
             <div>
                 <Cmd cmd="cat ~/about" at={1000} />
                 <div className="reveal mt-1.5 text-terminal-muted" style={delay(1550)}>
@@ -24,6 +26,7 @@ export function AboutTerminal() {
                     ))}
                 </div>
             </div>
+
             <p className="reveal text-terminal-fg" style={delay(1800)}>
                 <Prompt />{" "}
                 <span

@@ -40,20 +40,23 @@ function NavItem({ to, label, exact }: { to: string; label: string; exact: boole
 }
 
 export function SiteHeader() {
-    const [open, setOpen] = useState(false);
+    const [isMobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-        if (!open) return;
+        if (!isMobileOpen) return;
+
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") setOpen(false);
+            if (e.key === "Escape") setMobileOpen(false);
         };
+
         document.addEventListener("keydown", onKey);
         document.body.style.overflow = "hidden";
+
         return () => {
             document.removeEventListener("keydown", onKey);
             document.body.style.overflow = "";
         };
-    }, [open]);
+    }, [isMobileOpen]);
 
     return (
         <header>
@@ -73,11 +76,12 @@ export function SiteHeader() {
 
                 <div className="-mr-2 flex items-center">
                     <ThemeToggle />
+
                     <button
                         type="button"
-                        onClick={() => setOpen(true)}
+                        onClick={() => setMobileOpen(true)}
                         aria-label="Open menu"
-                        aria-expanded={open}
+                        aria-expanded={isMobileOpen}
                         className="grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96] md:hidden"
                     >
                         <Menu className="size-4.5" strokeWidth={1.75} />
@@ -85,7 +89,7 @@ export function SiteHeader() {
                 </div>
             </div>
 
-            {open ? (
+            {isMobileOpen ? (
                 <div
                     className="fixed inset-0 z-50 flex flex-col bg-background md:hidden"
                     role="dialog"
@@ -93,10 +97,10 @@ export function SiteHeader() {
                     aria-label="Menu"
                 >
                     <div className="flex h-14 items-center justify-between px-4 sm:px-6">
-                        <Brand onNavigate={() => setOpen(false)} />
+                        <Brand onNavigate={() => setMobileOpen(false)} />
                         <button
                             type="button"
-                            onClick={() => setOpen(false)}
+                            onClick={() => setMobileOpen(false)}
                             aria-label="Close menu"
                             className="grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96]"
                         >
@@ -112,7 +116,7 @@ export function SiteHeader() {
                             <Link
                                 key={item.to}
                                 to={item.to}
-                                onClick={() => setOpen(false)}
+                                onClick={() => setMobileOpen(false)}
                                 activeOptions={{
                                     exact: item.to === "/",
                                 }}

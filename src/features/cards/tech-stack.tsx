@@ -1,4 +1,3 @@
-import type { IconType } from "react-icons";
 import {
     SiCss,
     SiDocker,
@@ -19,8 +18,7 @@ import {
     SiVite,
     SiVitest,
 } from "react-icons/si";
-
-type Tech = { name: string; Icon?: IconType; abbreviation?: string };
+import { type Tech, Tile } from "#/features/cards/tile";
 
 const GROUPS: { label: string; items: Tech[] }[] = [
     {
@@ -60,25 +58,6 @@ const GROUPS: { label: string; items: Tech[] }[] = [
         ],
     },
 ];
-
-export function Tile({ name, Icon, abbreviation }: Tech) {
-    return (
-        <span
-            title={name}
-            role="img"
-            aria-label={name}
-            className="grid size-14 place-items-center border border-border bg-surface-2 text-muted transition-colors duration-200 hover:border-border-strong hover:text-foreground"
-        >
-            {Icon ? (
-                <Icon className="size-7" />
-            ) : (
-                <span className="font-mono text-[12px] font-bold tracking-tight">
-                    {abbreviation}
-                </span>
-            )}
-        </span>
-    );
-}
 
 export function TechStack() {
     return (

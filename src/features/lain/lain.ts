@@ -25,6 +25,6 @@ export function setLain(on: boolean): void {
     try {
         localStorage.setItem(LAIN_KEY, on ? "1" : "0");
     } catch {
-        /* storage blocked */
+        return;
     }
 }

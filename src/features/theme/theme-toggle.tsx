@@ -9,7 +9,7 @@ import {
 } from "#/features/theme/theme";
 import { cn } from "#/lib/cn";
 
-function Icon({ active, children }: { active: boolean; children: React.ReactNode }) {
+function ThemeIcon({ active, children }: { active: boolean; children: React.ReactNode }) {
     return (
         <span
             aria-hidden
@@ -35,35 +35,40 @@ export function ThemeToggle() {
     }, []);
 
     function toggle() {
-        const next: Theme = theme === "dark" ? "light" : "dark";
+        const nextTheme: Theme = theme === "dark" ? "light" : "dark";
+
         const commit = () => {
-            flushSync(() => setTheme(next));
-            applyTheme(next);
+            flushSync(() => setTheme(nextTheme));
+            applyTheme(nextTheme);
         };
-        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (reduced || typeof document.startViewTransition !== "function") {
+
+        const preferReduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (preferReduced || typeof document.startViewTransition !== "function") {
             commit();
             return;
         }
+
         document.startViewTransition(commit);
     }
 
     return (
         <button
             type="button"
-            onClick={toggle}
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
             title={theme === "dark" ? "Dark" : "Light"}
-            suppressHydrationWarning
             className="relative grid size-10 place-items-center text-muted transition-[color,scale] duration-200 hover:text-foreground active:scale-[0.96]"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+            onClick={toggle}
+            suppressHydrationWarning
         >
             <span className="relative block size-4.5">
-                <Icon active={mounted && theme === "light"}>
+                <ThemeIcon active={mounted && theme === "light"}>
                     <Sun className="size-4.5" strokeWidth={1.75} />
-                </Icon>
-                <Icon active={!mounted || theme === "dark"}>
+                </ThemeIcon>
+
+                <ThemeIcon active={!mounted || theme === "dark"}>
                     <Moon className="size-4.5" strokeWidth={1.75} />
-                </Icon>
+                </ThemeIcon>
             </span>
         </button>
     );

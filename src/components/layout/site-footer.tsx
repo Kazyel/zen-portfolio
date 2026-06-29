@@ -3,7 +3,7 @@ import { site, socials } from "#/data/site";
 export function SiteFooter() {
     return (
         <footer>
-            <div className="flex flex-col gap-5 px-4 pt-8 pb-6 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-5 px-4 pb-6 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center justify-between gap-4 font-mono text-xs text-muted sm:flex-row">
                     <p>
                         © 2026 {site.brand} ·{" "}

@@ -8,14 +8,16 @@ export const DEFAULT_THEME: Theme = "dark";
 export const THEME_SCRIPT = `(function(){try{var d=localStorage.getItem("${STORAGE_KEY}")!=="light";var e=document.documentElement;e.classList.toggle("dark",d);e.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
 
 export function applyTheme(theme: Theme): void {
-    const dark = theme === "dark";
-    const el = document.documentElement;
-    el.classList.toggle("dark", dark);
-    el.style.colorScheme = dark ? "dark" : "light";
+    const isDark = theme === "dark";
+    const element = document.documentElement;
+
+    element.classList.toggle("dark", isDark);
+    element.style.colorScheme = isDark ? "dark" : "light";
+
     try {
         localStorage.setItem(STORAGE_KEY, theme);
     } catch {
-        /* storage blocked */
+        return;
     }
 }
 
@@ -23,8 +25,6 @@ export function getStoredTheme(): Theme {
     try {
         const t = localStorage.getItem(STORAGE_KEY) as Theme | null;
         if (t && THEMES.includes(t)) return t;
-    } catch {
-        /* ignore */
-    }
+    } catch {}
     return DEFAULT_THEME;
 }

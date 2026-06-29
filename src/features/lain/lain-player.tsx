@@ -8,7 +8,7 @@ export function LainPlayer() {
     return (
         <div
             ref={boxRef}
-            className={`fixed z-[80] w-64 overflow-hidden border border-accent/60 bg-terminal ${
+            className={`fixed z-80 w-64 overflow-hidden border border-accent/60 bg-terminal ${
                 pos ? "" : "bottom-4 left-4"
             }`}
             style={pos ? { left: pos.x, top: pos.y } : undefined}
@@ -39,10 +39,12 @@ export function LainPlayer() {
                     <span className="size-2 bg-terminal-border" />
                     <span className="size-2 bg-terminal-border" />
                 </span>
+
                 <span className="font-mono text-[11px] text-terminal-muted">
                     lain.mp4
                 </span>
             </div>
+
             <iframe
                 title="serial experiments lain — opening"
                 className="aspect-video w-full"

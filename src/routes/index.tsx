@@ -16,9 +16,11 @@ function Home() {
                 <Card label="tech stack" index={1}>
                     <TechStack />
                 </Card>
+
                 <Card label="learning" index={2}>
                     <Learning />
                 </Card>
+
                 <Card label="tools" index={3}>
                     <Tools />
                 </Card>
